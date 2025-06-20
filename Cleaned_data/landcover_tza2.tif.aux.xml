@@ -3,9 +3,9 @@
     <Description>label</Description>
     <CategoryNames>
       <Category></Category>
-      <Category>vegetation</Category>
+      <Category>forest</Category>
+      <Category>grassland</Category>
       <Category>water</Category>
-      <Category></Category>
       <Category></Category>
       <Category></Category>
       <Category></Category>
@@ -17,7 +17,7 @@
       <Category></Category>
       <Category>urban and built-up</Category>
       <Category></Category>
-      <Category>snow and ice</Category>
+      <Category></Category>
       <Category>barren or sparsely populated</Category>
       <Category></Category>
       <Category></Category>
