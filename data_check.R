@@ -3,8 +3,8 @@ library(sf)
 library(tidyverse)
 library(terra)
 library(readxl)
-library(malariaAtlas)
-library(malariaAtlasCovariate)
+#library(malariaAtlas)
+#library(malariaAtlasCovariate)
 library(raster)
 
 # 1. 1. Check the elevation data for Tanzania
@@ -329,7 +329,7 @@ zmb_fac <- read_excel("Raw_data/zmb_facilities.xlsx") %>% # There is 19 differen
   mutate(
     Longitude = as.numeric(Longitude),
     Latitude  = as.numeric(Latitude)) %>%
-  filter(!is.na(Longitude) & !is.na(Latitude)) # 115 facilities missed locations
+  filter(!(Longitude == "null" | Latitude == "null" | is.na(Longitude) | is.na(Latitude))) # 115 facilities missed locations
 
 # Change to sf object
 zmb_fac_sf <- zmb_fac %>% 
@@ -357,7 +357,7 @@ tza_fac <- read_excel("Raw_data/tza_facilities.xlsx") %>% # There is 19 differen
   mutate(
     Longitude = as.numeric(Longitude),
     Latitude  = as.numeric(Latitude)) %>%
-  filter(!is.na(Longitude) & !is.na(Latitude))
+  filter(!(Longitude == "null" | Latitude == "null" | is.na(Longitude) | is.na(Latitude)))
 
 # Get shapefile for Tanzania
 tza_shp <- st_read("Raw_data/Shapefiles/District_TZ.shp") %>% 
