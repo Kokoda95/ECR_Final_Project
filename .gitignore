@@ -1,0 +1,8 @@
+
+# R session files
+.RData
+.RDataTmp
+.Rhistory
+
+# Output and raw data folders
+Raw_data/
