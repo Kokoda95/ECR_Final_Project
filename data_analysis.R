@@ -23,7 +23,7 @@ tza_fac <- read_excel("Raw_data/Cleaned_Facility list_Tanzania.xlsx") %>%
   
 # Change to sf object
 tza_fac_sf <- tza_fac %>% 
-  st_as_sf(coords = c("Longitude","Latitude"), crs = 4326) %>% 
+  st_as_sf(coords = c("Longitude","Latitude"), crs = crs(tza_shp)) %>% 
   mutate(inside_tza = st_within(geometry, tza_shp, sparse = FALSE) %>% rowSums() > 0) %>% 
   filter(inside_tza) # 164 facilities are out of the country.
 
