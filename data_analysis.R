@@ -10,9 +10,7 @@ library(malariaAtlas)
 ############### Tanzania ##########################################################
 
 # Load the shapefile
-tza_shp <- st_read("Raw_data/Shapefiles/District_TZ.shp") %>% 
-  dplyr::select(-District_N) %>% 
-  st_transform(crs = 4326)
+tza_shp <- st_read("Raw_data/Shapefiles/District_TZ.shp")
 
 # Read & clean primary HFs data 
 tza_fac <- read_excel("Raw_data/Cleaned_Facility list_Tanzania.xlsx") %>% 
@@ -39,8 +37,13 @@ names(pop_tza_df)[3] <- "pop"
 
 # Plot the distribution and health facilities
 ggplot() +
-  geom_tile(data = pop_tza_df, aes(x = x, y = y, fill = pop)) +
-  scale_fill_viridis_c(option = "inferno",  direction = -1) +
+  geom_tile(data = pop_tza_df, aes(x = x, y = y, fill = log10(pop))) +
+  scale_fill_viridis(
+    option = "inferno",
+    name = "Population",
+    breaks = log10(c(1, 10, 100, 1000, 10000)),   # values on log10 scale
+    labels = c("1", "10", "100", "1K", "10K")     # displayed in original scale
+  ) +
   geom_sf(data = tza_fac_sf, aes(color = OwnershipGroup), size = 1, alpha = 0.8) +
   #coord_sf(crs = st_crs(pop_raster)) +
   theme_void(base_size = 14) +
@@ -68,7 +71,7 @@ tza_plot <- tza_fac %>%
   left_join(tza_shp, by = "Council") %>%
   mutate(fac_per_capita = (numb_fac/pop)*10000) %>% 
   ggplot() +
-  geom_sf(aes(fill = fac_per_capita, geometry = geometry), color = "grey27", size = 0.2) +
+  geom_sf(aes(fill = fac_per_capita, geometry = geometry), color = "grey70", size = 0.2) +
   scale_fill_viridis_c(
     option = "viridis",         # or "magma", "viridis", "inferno"
     direction = -1,            # flip color scale (optional)
@@ -129,7 +132,9 @@ names(pop_zmb_df)[3] <- "pop"
 # Plot the distribution and health facilities
 ggplot() +
   geom_tile(data = pop_zmb_df, aes(x = x, y = y, fill = pop)) +
-  scale_fill_viridis_c(option = "inferno",  direction = -1) +
+  scale_fill_viridis_c(option = "inferno",  
+                       #direction = -1,
+                       trans = "log10") +
   geom_sf(data = zmb_fac_sf, aes(color = `Ownership type`), size = 1, alpha = 0.8) +
   theme_void(base_size = 14) +
   labs(
@@ -156,7 +161,7 @@ zmb_plot <- zmb_fac %>%
   left_join(zmb_shp, by = c("District" = "name_2")) %>%
   mutate(fac_per_capita = (numb_fac/pop)*10000) %>% 
   ggplot() +
-  geom_sf(aes(fill = fac_per_capita, geometry = geometry), color = "grey27", size = 0.2) +
+  geom_sf(aes(fill = fac_per_capita, geometry = geometry), color = "grey70", size = 0.2) +
   scale_fill_viridis_c(
     option = "viridis",         # or "magma", "viridis", "inferno"
     direction = -1,            # flip color scale (optional)
