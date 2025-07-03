@@ -6,6 +6,7 @@ library(readxl)
 #library(malariaAtlas)
 #library(malariaAtlasCovariate)
 library(raster)
+library(gdistance)
 
 # 1. 1. Check the elevation data for Tanzania
 elevation_tza <- rast("Raw_data/landcover_Elevation/tza_elevation.tif")
